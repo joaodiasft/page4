@@ -1,0 +1,348 @@
+<html><head><base href=".">
+    <meta charset="UTF-8">
+    <title>Quando precisar de algo, venha aqui...</title>
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #ff4b8d, #ff8b8b);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        overflow-x: hidden;
+      }
+    
+      .floating-hearts {
+        position: fixed;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+    
+      .floating-heart {
+        position: absolute;
+        font-size: 1.5em;
+        animation: floatingAnimation 15s linear infinite;
+        opacity: 0.5;
+      }
+    
+      .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: white;
+        pointer-events: none;
+        animation: sparkleAnimation 4s linear infinite;
+      }
+    
+      @keyframes floatingAnimation {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% { opacity: 0.5; }
+        90% { opacity: 0.5; }
+        100% {
+          transform: translateY(-20vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+    
+      @keyframes sparkleAnimation {
+        0% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1); opacity: 0.8; }
+        100% { transform: scale(0); opacity: 0; }
+      }
+    
+      .container {
+        max-width: 1000px;
+        text-align: center;
+        padding: 20px;
+      }
+    
+      h1 {
+        font-size: 3.2em;
+        margin-bottom: 50px;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+        animation: float 4s ease-in-out infinite;
+        background: linear-gradient(45deg, #fff, #ffd6e6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+      }
+    
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+      }
+    
+      .romantic-button {
+        padding: 20px 30px;
+        border: none;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #ff4b8d;
+        font-size: 1.3em;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+    
+      .romantic-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: 0.5s;
+      }
+    
+      .romantic-button:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        background: #fff;
+      }
+    
+      .romantic-button:hover:before {
+        left: 100%;
+      }
+    
+      .romantic-button.whatsapp {
+        animation: blink 2s infinite;
+        background: #25D366;
+        color: white;
+        font-weight: bold;
+      }
+    
+      .romantic-button.whatsapp:hover {
+        background: #128C7E;
+        transform: scale(1.05);
+      }
+    
+      @keyframes blink {
+        0% { background-color: rgba(255, 255, 255, 0.95); }
+        50% { background-color: #ff8b8b; }
+        100% { background-color: rgba(255, 255, 255, 0.95); }
+      }
+    
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        max-width: 90%;
+        width: 500px;
+        text-align: center;
+        animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+    
+      .modal-content {
+        color: #ff4b8d;
+        font-size: 1.8em;
+        margin-bottom: 30px;
+        line-height: 1.5;
+        font-weight: 600;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      }
+    
+      .close-button {
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #ff4b8d, #ff8b8b);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.1em;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+    
+      .close-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 75, 141, 0.4);
+      }
+    
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 999;
+      }
+    
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(-1deg); }
+        50% { transform: translateY(-15px) rotate(1deg); }
+      }
+    
+      @keyframes modalPop {
+        0% { opacity: 0; transform: translate(-50%, -40%) scale(0.8); }
+        100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      }
+    
+      .hearts {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 998;
+      }
+    
+      @keyframes floatHeart {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    </head>
+    <body>
+      <div class="floating-hearts" id="backgroundHearts"></div>
+      <div class="container">
+        <h1>Quando precisar de algo, venha aqui rapidinho...</h1>
+        
+        <div class="button-grid">
+          <button class="romantic-button" data-message="Meu amor, sua tristeza &#xe9; passageira, mas meu amor por voc&#xea; &#xe9; e grande!">Quando estiver triste</button>
+          <button class="romantic-button" data-message="Cada batida do meu cora&#xe7;&#xe3;o &#xe9; uma declara&#xe7;&#xe3;o de amor por voc&#xea;. Meu amor &#xe9; t&#xe3;o imenso que transborda em cada pensamento, em cada suspiro... &#x1f498;">Quando precisar de amor</button>
+          <button class="romantic-button" data-message="Imagina meus bra&#xe7;os te envolvendo agora, te protegendo de tudo. Nesse abra&#xe7;o virtual, envio todo meu carinho e prote&#xe7;&#xe3;o! &#x1f917;&#x1f46b;">Quando precisar de um abra&#xe7;o</button>
+          <button class="romantic-button" data-message="Voc&#xea; &#xe9; a obra-prima mais linda que Deus j&#xe1; criou! Sua for&#xe7;a, sua beleza, seu jeito &#xfa;nico de ser... tudo em voc&#xea; me encanta! &#x1f31f;&#x1f4da;">Quando se sentir inseguro(a)</button>
+          <button class="romantic-button" data-message="Juntos somos invenc&#xed;veis! Meu amor te dar&#xe1; for&#xe7;as quando precisar, minha m&#xe3;o sempre estar&#xe1; estendida para te levantar! &#x1f4c8;&#x1f46b;">Quando precisar de for&#xe7;a</button>
+          <button class="romantic-button" data-message="Seu sorriso &#xe9; a luz que ilumina meus dias, a melodia que faz meu cora&#xe7;&#xe3;o dan&#xe7;ar, a raz&#xe3;o pela qual acordo feliz todos os dias! &#x1f31e;&#x1f46b;">Quando precisar sorrir</button>
+          <button class="romantic-button" data-message="Eu te Abrançando e todos momentos otimos nosso">Quando quiser sonhar</button>
+          <button class="romantic-button" data-message="Em cada momento dif&#xed;cil, lembre-se: voc&#xea; tem a for&#xe7;a de um guerreiro e o cora&#xe7;&#xe3;o de um anjo. Nada pode te derrubar! &#x1f31f;&#x1f44a;">Quando precisar de coragem</button>
+          <button class="romantic-button" data-message="Seu amor me faz querer ser uma pessoa melhor a cada dia. Voc&#xea; desperta o melhor de mim! &#x1f31e;&#x1f496;">Quando precisar de motiva&#xe7;&#xe3;o</button>
+          <button class="romantic-button" data-message="Me liga e me manda muita mensagens quero estar para voce em cada momento">Quando se sentir sozinho(a)</button>
+          <button class="romantic-button" data-message="Com voc&#xea;, cada momento se torna m&#xe1;gico, cada risada &#xe9; mais doce, cada dia &#xe9; uma nova aventura de amor! &#x1f389;&#x1f495;">Quando precisar de magia</button>
+          <button class="romantic-button" data-message="Voc&#xea; &#xe9; a prova de que os sonhos se realizam e que o amor pode ser mais bonito do que imaginamos! &#x1f31f;&#x1f4ab;">Quando precisar de esperan&#xe7;a</button>
+          <button class="romantic-button" data-message="Seu valor &#xe9; inestim&#xe1;vel, sua beleza &#xe9; &#xfa;nica, seu cora&#xe7;&#xe3;o &#xe9; precioso. Voc&#xea; &#xe9; um tesouro que eu tenho a sorte de ter encontrado! &#x1f48e;&#x1f495;">Quando duvidar do seu valor</button>
+          <button class="romantic-button" data-message="Me chama para estar perto de voce e te mostrar cada detalhe">Quando precisar de seguran&#xe7;a</button>
+          <button class="romantic-button" data-message="Cada momento ao seu lado &#xe9; um pedacinho do para&#xed;so. Você e meu pedacinho ">Quando quiser recordar</button>
+          <button class="romantic-button" data-message="Seu cora&#xe7;&#xe3;o gentil, sua alma linda, seu jeito de ser...">Quando precisar se sentir especial</button>
+          <button class="romantic-button" data-message="Nossa hist&#xf3;ria de amor &#xe9; como uma constela&#xe7;&#xe3;o &#xfa;nica no c&#xe9;u - brilhante, eterna e incompar&#xe1;vel. Voc&#xea; &#xe9; a estrela mais brilhante da minha vida, o amor que faz meu mundo girar, a raz&#xe3;o do meu viver! &#x1f320;&#x1f4ab;">Quando quiser uma hist&#xf3;ria de amor</button>
+          <button class="romantic-button" data-message="Temos nossa historia complexa mais superamos ja muitas coisas">Quando duvidar do nosso amor</button>
+          <button class="romantic-button" data-message="Quero te ver todo dia e te mostrar todo meu carinho para você">Quando precisar se sentir amado(a)</button>
+          <button class="romantic-button" data-message="Nossa historia de superação e um processo">Quando precisar acreditar no amor</button>
+          <button class="romantic-button" data-message="O que Deus uniu, ninguém separa Mateus 19:6">Quando precisar de esperan&#xe7;a</button>
+          <button class="romantic-button" data-needs-password="true" data-message="Me chame e reserve um tempinho para nós">Quando quiser uma surpresa especial</button>
+          <button class="romantic-button" data-needs-password="true" data-message="Eu te amo muito e voce muito importante aqui , muito gostosa amor">Quando precisar ouvir algo especial</button>
+          <button class="romantic-button" data-needs-password="true" data-message="Eu te vejo tao linda que se eu puder te ver todo dia eu quero, se eu puder te beijar todo dia eu quero pq voce e maravilhosa amor">Quando quiser uma declara&#xe7;&#xe3;o de amor</button>
+          <button class="romantic-button" data-needs-password="true" data-message="Tire uma Hora para nos que te entrego pessoalmente">Mensagem secreta de amor</button>
+          <button class="romantic-button" data-needs-password="true" data-message="Preciso de 5 horas com você">Segredo do meu cora&#xe7;&#xe3;o</button>
+          <button class="romantic-button whatsapp" onclick="openWhatsApp()">
+            Enviar mensagem de amor agora! &#x1f48c;
+          </button>
+        </div>
+      </div>
+    
+      <div class="overlay" id="overlay"></div>
+      <div class="modal" id="modal">
+        <div class="modal-content" id="modal-message"></div>
+        <button class="close-button" onclick="closeModal()">Fechar com amor &#x2764;&#xfe0f;&#x2728;</button>
+      </div>
+    
+      <script>const buttons = document.querySelectorAll('.romantic-button');
+    const modal = document.getElementById('modal');
+    const overlay = document.getElementById('overlay');
+    const modalMessage = document.getElementById('modal-message');
+    function createBackgroundEffects() {
+      const container = document.getElementById('backgroundHearts');
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = ['❤️', '💖', '💝', '💕', '💗'][Math.floor(Math.random() * 5)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 5 + 10 + 's';
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 15000);
+      }, 1000);
+      setInterval(() => {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = Math.random() * 100 + 'vw';
+        sparkle.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 4000);
+      }, 500);
+    }
+    createBackgroundEffects();
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const message = button.getAttribute('data-message');
+        const needsPassword = button.getAttribute('data-needs-password');
+        if (needsPassword === 'true') {
+          checkPassword(message);
+        } else {
+          showModal(message);
+          createHearts();
+        }
+      });
+    });
+    function showModal(message) {
+      modal.style.display = 'block';
+      overlay.style.display = 'block';
+      modalMessage.textContent = message;
+    }
+    function closeModal() {
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+    function createHearts() {
+      const hearts = document.createElement('div');
+      hearts.className = 'hearts';
+      document.body.appendChild(hearts);
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.innerHTML = ['❤️', '💖', '💝', '💕', '💗'][Math.floor(Math.random() * 5)];
+          heart.style.position = 'absolute';
+          heart.style.fontSize = Math.random() * 30 + 15 + 'px';
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.bottom = '-20px';
+          heart.style.animation = `floatHeart ${Math.random() * 3 + 3}s ease-out forwards`;
+          hearts.appendChild(heart);
+          setTimeout(() => heart.remove(), 6000);
+        }, i * 200);
+      }
+      setTimeout(() => hearts.remove(), 9000);
+    }
+    function checkPassword(message) {
+      const password = prompt("Digite a senha para ver essa mensagem especial:");
+      if (password === "eu te amo") {
+        showModal(message);
+        createHearts();
+      } else if (password !== null) {
+        alert("Senha incorreta! Dica: diga o que você sente ❤️");
+      }
+    }
+    function openWhatsApp() {
+      const defaultMessage = "Oi amor! Preciso de voce muito agora... ❤️";
+      const encodedMessage = encodeURIComponent(defaultMessage);
+      const whatsappURL = `https://wa.me/5562995551544?text=${encodedMessage}`;
+      window.open(whatsappURL, '_blank');
+    }
+    overlay.addEventListener('click', closeModal);</script>
+    </body></html>
